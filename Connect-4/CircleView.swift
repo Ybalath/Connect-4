@@ -11,8 +11,7 @@ struct CircleView: View {
     var fillColor : Color
     var body: some View {
         Circle()
-            .fill()
-            .foregroundStyle(.tint)
+            .fill(fillColor)
     }
 }
 

@@ -18,6 +18,7 @@ struct ContentView: View {
     var body: some View {
         VStack {
             Text("Connect 4")
+            Text("Current Player: \(viewModel.currentPlayerName)")
             gameGrid
         }
         .padding()
@@ -35,7 +36,10 @@ struct ContentView: View {
         return LazyVGrid(columns: columns){
             ForEach(viewModel.fields){
                 gameField in
-                CircleView()
+                CircleView(fillColor: gameField.color)
+                    .onTapGesture {
+                        viewModel.choose(field: gameField)
+                    }
             }
         }
     }
