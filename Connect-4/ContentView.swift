@@ -7,18 +7,39 @@
 
 import SwiftUI
 
+
+let gameFields = Array(repeating: 0, count: 42)
+
+
 struct ContentView: View {
+    
+    @ObservedObject var viewModel: ConnectFourGameViewModel = ConnectFourGameViewModel()
+    
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+            Text("Connect 4")
+            gameGrid
         }
         .padding()
     }
+    var gameGrid: some View {
+        let columns = [
+                GridItem(.flexible()),
+                GridItem(.flexible()),
+                GridItem(.flexible()),
+                GridItem(.flexible()),
+                GridItem(.flexible()),
+                GridItem(.flexible()),
+                GridItem(.flexible())
+            ]
+        return LazyVGrid(columns: columns){
+            ForEach(viewModel.fields){
+                gameField in
+                CircleView()
+            }
+        }
+    }
 }
-
 #Preview {
     ContentView()
 }

@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct Connect_4App: App {
+    @StateObject var game = ConnectFourGameViewModel()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(viewModel: game)
         }
     }
 }

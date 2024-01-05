@@ -6,3 +6,12 @@
 //
 
 import Foundation
+
+class ConnectFourGameViewModel: ObservableObject{
+    
+    @Published private var model = ConnectFourGameModel()
+
+    var fields: [ConnectFourGameModel.Field]{
+        model.fields
+    }
+}

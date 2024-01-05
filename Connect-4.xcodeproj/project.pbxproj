@@ -14,6 +14,9 @@
 		08F96A112B4862E2009EF1B7 /* Connect_4Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F96A102B4862E2009EF1B7 /* Connect_4Tests.swift */; };
 		08F96A1B2B4862E2009EF1B7 /* Connect_4UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F96A1A2B4862E2009EF1B7 /* Connect_4UITests.swift */; };
 		08F96A1D2B4862E2009EF1B7 /* Connect_4UITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F96A1C2B4862E2009EF1B7 /* Connect_4UITestsLaunchTests.swift */; };
+		08F96A2B2B487C9A009EF1B7 /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F96A2A2B487C9A009EF1B7 /* CircleView.swift */; };
+		08F96A2F2B4880A9009EF1B7 /* ConnectFourGameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F96A2E2B4880A9009EF1B7 /* ConnectFourGameViewModel.swift */; };
+		08F96A312B4880DB009EF1B7 /* ConnectFourGameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F96A302B4880DB009EF1B7 /* ConnectFourGameModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +48,9 @@
 		08F96A1A2B4862E2009EF1B7 /* Connect_4UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Connect_4UITests.swift; sourceTree = "<group>"; };
 		08F96A1C2B4862E2009EF1B7 /* Connect_4UITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Connect_4UITestsLaunchTests.swift; sourceTree = "<group>"; };
 		08F96A292B4865D0009EF1B7 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; name = .gitignore; path = "Connect-4/.gitignore"; sourceTree = "<group>"; };
+		08F96A2A2B487C9A009EF1B7 /* CircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
+		08F96A2E2B4880A9009EF1B7 /* ConnectFourGameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectFourGameViewModel.swift; sourceTree = "<group>"; };
+		08F96A302B4880DB009EF1B7 /* ConnectFourGameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectFourGameModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +104,9 @@
 			children = (
 				08F969FF2B4862DD009EF1B7 /* Connect_4App.swift */,
 				08F96A012B4862DD009EF1B7 /* ContentView.swift */,
+				08F96A2A2B487C9A009EF1B7 /* CircleView.swift */,
+				08F96A2E2B4880A9009EF1B7 /* ConnectFourGameViewModel.swift */,
+				08F96A302B4880DB009EF1B7 /* ConnectFourGameModel.swift */,
 				08F96A032B4862E0009EF1B7 /* Assets.xcassets */,
 				08F96A052B4862E0009EF1B7 /* Preview Content */,
 			);
@@ -259,8 +268,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				08F96A2B2B487C9A009EF1B7 /* CircleView.swift in Sources */,
+				08F96A2F2B4880A9009EF1B7 /* ConnectFourGameViewModel.swift in Sources */,
 				08F96A022B4862DD009EF1B7 /* ContentView.swift in Sources */,
 				08F96A002B4862DD009EF1B7 /* Connect_4App.swift in Sources */,
+				08F96A312B4880DB009EF1B7 /* ConnectFourGameModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
