@@ -16,29 +16,52 @@ enum FieldOwner{
 
 struct ConnectFourGameModel{
     
-    private(set) var fields: [Field]
+    private(set) var fields: [[Field]]
     
     private var players: [Player]
     
     private(set) var currentPlayer: Player
     
+    private var emptyFieldsLeft: Int {
+        willSet {
+            if newValue == 0 {
+                gameEnd = true
+            }
+        }
+    }
+    private(set) var gameEnd: Bool
+    
     init(){
         fields = []
+        var id = 0
         players = [Player(score: 0, color: .blue, name: FieldOwner.player1), Player(score: 0, color: .orange, name: FieldOwner.player2)]
         currentPlayer = players.first!
-        for i in 0..<42{
-            fields.append(Field(owner: FieldOwner.none, color: .gray, id: i))
+        emptyFieldsLeft = 42
+        gameEnd = false
+        for _ in 0..<6{
+            var row: [Field] = []
+            for _ in 0..<7{
+                row.append(Field(owner: FieldOwner.none, color: .gray, id: id))
+                id += 1
+            }
+            fields.append(row)
         }
     }
     
     mutating func choose (_ field: Field){
-        if let chosenFieldIndex = fields.firstIndex(where: {$0.id == field.id}){
-            if fields[chosenFieldIndex].owner == FieldOwner.none{
-                fields[chosenFieldIndex].owner = currentPlayer.name
-                fields[chosenFieldIndex].color = currentPlayer.color
-                nextPlayer()
+        if field.owner == FieldOwner.none {
+            let fieldColumn = field.id % 7
+            for rowID in stride(from: 5, through: 0, by: -1){
+                if fields[rowID][fieldColumn].owner == FieldOwner.none{
+                    fields[rowID][fieldColumn].owner = currentPlayer.name
+                    fields[rowID][fieldColumn].color = currentPlayer.color
+                    nextPlayer()
+                    emptyFieldsLeft -= 1
+                    break
+                }
             }
         }
+        
     }
     
     mutating func nextPlayer(){

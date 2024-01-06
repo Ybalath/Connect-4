@@ -19,6 +19,9 @@ struct ContentView: View {
         VStack {
             Text("Connect 4")
             Text("Current Player: \(viewModel.currentPlayerName)")
+            if viewModel.gameEnd {
+                Text("Gra skonczona")
+            }
             gameGrid
         }
         .padding()
@@ -34,12 +37,20 @@ struct ContentView: View {
                 GridItem(.flexible())
             ]
         return LazyVGrid(columns: columns){
-            ForEach(viewModel.fields){
-                gameField in
-                CircleView(fillColor: gameField.color)
-                    .onTapGesture {
-                        viewModel.choose(field: gameField)
-                    }
+            ForEach(0..<viewModel.fields.count, id: \.self){ row in
+                ForEach(0..<viewModel.fields[row].count, id: \.self){column in
+                    let gameField = viewModel.fields[row][column]
+                    CircleView(fillColor: gameField.color)
+                        .onTapGesture{
+                            if !viewModel.gameEnd {
+                                viewModel.choose(field: gameField)
+                            }
+                        }
+                        .overlay{
+                            Text("\(row) \(column)")
+                        }
+                }
+                
             }
         }
     }
