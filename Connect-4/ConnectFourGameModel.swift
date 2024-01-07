@@ -8,10 +8,10 @@
 import Foundation
 import SwiftUI
 
-enum FieldOwner{
-    case none
-    case player1
-    case player2
+enum FieldOwner: String{
+    case none = "None"
+    case player1 = "Player 1"
+    case player2 = "Player 2"
 }
 
 struct ConnectFourGameModel{
@@ -26,11 +26,13 @@ struct ConnectFourGameModel{
         willSet {
             if newValue == 0 {
                 gameEnd = true
+                victoriusPlayer = "Draw"
             }
         }
     }
     private(set) var firstEmptyFieldInColumns: [Int]
-    private(set) var gameEnd: Bool
+    var gameEnd: Bool
+    var victoriusPlayer: String = ""
     
     init(){
         fields = []
@@ -49,28 +51,121 @@ struct ConnectFourGameModel{
             fields.append(row)
         }
     }
+    mutating func restartGame(){
+        fields = []
+        var id = 0
+        players = [Player(score: 0, color: .blue, name: FieldOwner.player1), Player(score: 0, color: .orange, name: FieldOwner.player2)]
+        currentPlayer = players.first!
+        emptyFieldsLeft = 42
+        gameEnd = false
+        victoriusPlayer = ""
+        firstEmptyFieldInColumns = [5,5,5,5,5,5,5]
+        for _ in 0..<6{
+            var row: [Field] = []
+            for _ in 0..<7{
+                row.append(Field(owner: FieldOwner.none, color: .gray, id: id))
+                id += 1
+            }
+            fields.append(row)
+        }
+    }
     
     mutating func choose (_ field: Field){
         if field.owner == FieldOwner.none {
             let fieldColumn = field.id % 7
-//            for rowID in stride(from: 5, through: 0, by: -1){
-//                if fields[rowID][fieldColumn].owner == FieldOwner.none{
-//                    fields[rowID][fieldColumn].owner = currentPlayer.name
-//                    fields[rowID][fieldColumn].color = currentPlayer.color
-//                    nextPlayer()
-//                    emptyFieldsLeft -= 1
-//                    break
-//                }
-//            }
             if firstEmptyFieldInColumns[fieldColumn] != -1 {
                 fields[firstEmptyFieldInColumns[fieldColumn]][fieldColumn].owner = currentPlayer.name
                 fields[firstEmptyFieldInColumns[fieldColumn]][fieldColumn].color = currentPlayer.color
-                nextPlayer()
                 emptyFieldsLeft -= 1
+                
+                if checkForWin(fields[firstEmptyFieldInColumns[fieldColumn]][fieldColumn]) {
+                    gameEnd = true
+                }else {
+                    nextPlayer()
+                    victoriusPlayer = currentPlayer.name.rawValue
+                }
                 firstEmptyFieldInColumns[fieldColumn] -= 1
             }
         }
         
+    }
+    
+    mutating func checkForWin(_ field: Field) -> Bool {
+        
+        let playerName = field.owner
+        let fieldRow = field.id / 7
+        let fieldColumn = field.id % 7
+        
+        var count = 0
+        for column in 0..<7{
+            if fields[fieldRow][column].owner == playerName {
+                count += 1
+                if count == 4 {
+                    return true
+                }
+            } else {
+                count = 0
+            }
+        }
+
+        count = 0
+        for row in 0..<6{
+            if fields[row][fieldColumn].owner == playerName {
+                count += 1
+                if count == 4 {
+                    return true
+                }
+            } else {
+                count = 0
+            }
+        }
+        
+        count = 0
+        var row = fieldRow
+        var column = fieldColumn
+        if fieldRow + fieldColumn <= 5 {
+            row = fieldRow + fieldColumn
+            column = 0
+        } else {
+            row = 5
+            column = fieldRow + fieldColumn - 5
+        }
+        
+        while row >= 0 && column < 7{
+            if fields[row][column].owner == playerName {
+                count += 1
+                if count == 4 {
+                    return true
+                }
+            } else {
+                count = 0
+            }
+            row -= 1
+            column += 1
+        }
+        
+        count = 0
+        if fieldRow >= fieldColumn {
+            row = fieldRow - fieldColumn
+            column = 0
+        } else {
+            column = fieldColumn - fieldRow
+            row = 0
+        }
+        while row < 6 && column < 7{
+            if fields[row][column].owner == playerName {
+                count += 1
+                if count == 4 {
+                    return true
+                }
+            } else {
+                count = 0
+            }
+            row += 1
+            column += 1
+        }
+        
+        return false
     }
     
     mutating func nextPlayer(){
@@ -78,6 +173,8 @@ struct ConnectFourGameModel{
             currentPlayer = players[(currentPlayerIndex+1) % players.count]
         }
     }
+    
+    
     
     struct Player{
         let score: Int

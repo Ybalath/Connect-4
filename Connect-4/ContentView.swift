@@ -17,14 +17,30 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            Text("Connect 4")
-            Text("Current Player: \(viewModel.currentPlayerName)")
-            if viewModel.gameEnd {
-                Text("Gra skonczona")
+            Text("Connect 4").font(.title)
+            VStack{
+                if !viewModel.gameEnd {
+                    Text("Current Player: \(viewModel.currentPlayerName)")
+                } else{
+                    Text("Game Over")
+                    viewModel.victoriusPlayer == "Draw" ? Text("Draw") : Text("\(viewModel.victoriusPlayer) won")
+                    Button("Play Again"){
+                        viewModel.restartGame()
+                    }
+                }
             }
             gameGrid
         }
         .padding()
+//        .alert(isPresented: $viewModel.gameEnd){
+//            Alert(title: Text("Game Over - \(viewModel.victoriusPlayer) won"),
+//            message: Text("Would you like to play again?"),
+//                  primaryButton: .default(Text("Yes")){
+//                    viewModel.restartGame()
+//            },
+//                  secondaryButton: .cancel()
+//            )
+//        }
     }
     var gameGrid: some View {
         let columns = [

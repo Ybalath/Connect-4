@@ -20,17 +20,19 @@ class ConnectFourGameViewModel: ObservableObject{
     }
     
     var gameEnd: Bool{
-        model.gameEnd
+        get { model.gameEnd}
+        set { model.gameEnd = newValue}
     }
     
     var currentPlayerName: String{
-        switch model.currentPlayer.name {
-        case .none:
-            return "No player"
-        case .player1:
-            return "Player 1"
-        case .player2:
-            return "Player 2"
-        }
+        model.currentPlayer.name.rawValue
+    }
+    
+    var victoriusPlayer: String {
+        model.victoriusPlayer
+    }
+    
+    func restartGame() {
+        model.restartGame()
     }
 }
