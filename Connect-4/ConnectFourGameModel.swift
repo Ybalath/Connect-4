@@ -29,6 +29,7 @@ struct ConnectFourGameModel{
             }
         }
     }
+    private(set) var firstEmptyFieldInColumns: [Int]
     private(set) var gameEnd: Bool
     
     init(){
@@ -38,6 +39,7 @@ struct ConnectFourGameModel{
         currentPlayer = players.first!
         emptyFieldsLeft = 42
         gameEnd = false
+        firstEmptyFieldInColumns = [5,5,5,5,5,5,5]
         for _ in 0..<6{
             var row: [Field] = []
             for _ in 0..<7{
@@ -51,14 +53,21 @@ struct ConnectFourGameModel{
     mutating func choose (_ field: Field){
         if field.owner == FieldOwner.none {
             let fieldColumn = field.id % 7
-            for rowID in stride(from: 5, through: 0, by: -1){
-                if fields[rowID][fieldColumn].owner == FieldOwner.none{
-                    fields[rowID][fieldColumn].owner = currentPlayer.name
-                    fields[rowID][fieldColumn].color = currentPlayer.color
-                    nextPlayer()
-                    emptyFieldsLeft -= 1
-                    break
-                }
+//            for rowID in stride(from: 5, through: 0, by: -1){
+//                if fields[rowID][fieldColumn].owner == FieldOwner.none{
+//                    fields[rowID][fieldColumn].owner = currentPlayer.name
+//                    fields[rowID][fieldColumn].color = currentPlayer.color
+//                    nextPlayer()
+//                    emptyFieldsLeft -= 1
+//                    break
+//                }
+//            }
+            if firstEmptyFieldInColumns[fieldColumn] != -1 {
+                fields[firstEmptyFieldInColumns[fieldColumn]][fieldColumn].owner = currentPlayer.name
+                fields[firstEmptyFieldInColumns[fieldColumn]][fieldColumn].color = currentPlayer.color
+                nextPlayer()
+                emptyFieldsLeft -= 1
+                firstEmptyFieldInColumns[fieldColumn] -= 1
             }
         }
         
