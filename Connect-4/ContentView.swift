@@ -20,13 +20,30 @@ struct ContentView: View {
             Text("Connect 4").font(.title)
             VStack{
                 if !viewModel.gameEnd {
-                    Text("Current Player: \(viewModel.currentPlayerName)")
+                    HStack{
+                        Text("Current Player:")
+                        Text("\(viewModel.currentPlayerName)")
+                            .foregroundStyle(viewModel.currentPlayerColor)
+                    }
                 } else{
                     Text("Game Over")
                     viewModel.victoriusPlayer == "Draw" ? Text("Draw") : Text("\(viewModel.victoriusPlayer) won")
                     Button("Play Again"){
                         viewModel.restartGame()
                     }
+                }
+            }
+            VStack{
+                Text("Score")
+                HStack{
+                    Text("Player 1")
+                    Spacer()
+                    Text("Player 2")
+                }
+                HStack{
+                    Text("\(viewModel.playerScores.0)")
+                    Spacer()
+                    Text("\(viewModel.playerScores.1)")
                 }
             }
             gameGrid

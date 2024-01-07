@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 class ConnectFourGameViewModel: ObservableObject{
     
@@ -28,11 +29,19 @@ class ConnectFourGameViewModel: ObservableObject{
         model.currentPlayer.name.rawValue
     }
     
+    var currentPlayerColor: Color{
+        model.currentPlayer.color
+    }
+    
     var victoriusPlayer: String {
         model.victoriusPlayer
     }
     
     func restartGame() {
         model.restartGame()
+    }
+    
+    var playerScores: (Int,Int){
+        return (model.players[0].score,model.players[1].score)
     }
 }
