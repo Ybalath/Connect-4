@@ -15,6 +15,10 @@ struct ContentView: View {
     
     @ObservedObject var viewModel: ConnectFourGameViewModel = ConnectFourGameViewModel()
     
+    @State private var oldPlayerScore1 = 0
+    @State private var oldPlayerScore2 = 0
+    
+    
     var body: some View {
         VStack {
             Text("Connect 4").font(.title)
@@ -24,7 +28,9 @@ struct ContentView: View {
                         Text("Current Player:")
                         Text("\(viewModel.currentPlayerName)")
                             .foregroundStyle(viewModel.currentPlayerColor)
-                    }
+                    }.rotation3DEffect(
+                        .degrees(viewModel.currentPlayerName == FieldOwner.player1.rawValue ? 0 : 360), axis: (x: 0, y: 1, z: 0)
+                    ).animation(.linear(duration: 1.0), value: viewModel.currentPlayerName)
                 } else{
                     Text("Game Over")
                     viewModel.victoriusPlayer == "Draw" ? Text("Draw") : Text("\(viewModel.victoriusPlayer) won")
@@ -42,8 +48,29 @@ struct ContentView: View {
                 }
                 HStack{
                     Text("\(viewModel.playerScores.0)")
+                    if viewModel.playerScores.0 > oldPlayerScore1 {
+                        Text("+\(viewModel.playerScores.0 - oldPlayerScore1)")
+                            .transition(.move(edge: .top))
+                            .animation(.easeIn(duration: 0.5))
+                            .onAppear{
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
+                                    self.oldPlayerScore1 = viewModel.playerScores.0
+                                }
+                            }
+                    }
                     Spacer()
+                    if viewModel.playerScores.1 > oldPlayerScore2 {
+                        Text("+\(viewModel.playerScores.1 - oldPlayerScore2)")
+                            .transition(.move(edge: .top))
+                            .animation(.easeIn(duration: 0.5))
+                            .onAppear{
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
+                                    self.oldPlayerScore2 = viewModel.playerScores.1
+                                }
+                            }
+                    }
                     Text("\(viewModel.playerScores.1)")
+                    
                 }
             }
             gameGrid
@@ -72,16 +99,17 @@ struct ContentView: View {
         return LazyVGrid(columns: columns){
             ForEach(0..<viewModel.fields.count, id: \.self){ row in
                 ForEach(0..<viewModel.fields[row].count, id: \.self){column in
-                    let gameField = viewModel.fields[row][column]
-                    CircleView(fillColor: gameField.color)
+
+//                    CircleView(fillColor: gameField.color)
+                    CircleView(field: viewModel.fields[row][column])
                         .onTapGesture{
                             if !viewModel.gameEnd {
-                                viewModel.choose(field: gameField)
+                                viewModel.choose(field: viewModel.fields[row][column])
                             }
                         }
-                        .overlay{
-                            Text("\(row) \(column)")
-                        }
+//                        .overlay{
+//                            Text("\(row) \(column)")
+//                        }
                 }
                 
             }

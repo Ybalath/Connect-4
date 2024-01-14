@@ -6,3 +6,10 @@
 //
 
 import Foundation
+import SwiftUI
+
+struct Player{
+    var score: Int
+    let color: Color
+    let name: FieldOwner
+}

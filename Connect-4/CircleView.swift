@@ -8,13 +8,15 @@
 import SwiftUI
 
 struct CircleView: View {
-    var fillColor : Color
+    var field: Field
     var body: some View {
         Circle()
-            .fill(fillColor)
+            .fill(field.color)
+//            .transition(.asymmetric(insertion: .move(edge: .top), removal: .opacity))
+            .animation(.easeInOut(duration: 1.0), value: field.colorSet)
     }
 }
-
-#Preview {
-    CircleView(fillColor: .red)
-}
+//
+//#Preview {
+//    CircleView(fillColor: .red)
+//}

@@ -6,3 +6,11 @@
 //
 
 import Foundation
+import SwiftUI
+
+struct Field: Identifiable, Equatable{
+    var owner: FieldOwner
+    var color: Color
+    let id: Int
+    var colorSet: Bool = false
+}

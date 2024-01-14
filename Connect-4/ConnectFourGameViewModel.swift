@@ -12,11 +12,11 @@ class ConnectFourGameViewModel: ObservableObject{
     
     @Published private var model = ConnectFourGameModel()
 
-    var fields: [[ConnectFourGameModel.Field]]{
+    var fields: [[Field]]{
         model.fields
     }
     
-    func choose(field: ConnectFourGameModel.Field){
+    func choose(field: Field){
         model.choose(field)
     }
     

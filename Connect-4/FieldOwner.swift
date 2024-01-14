@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+enum FieldOwner: String{
+    case none = "None"
+    case player1 = "Player 1"
+    case player2 = "Player 2"
+}

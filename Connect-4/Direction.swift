@@ -6,3 +6,10 @@
 //
 
 import Foundation
+
+enum Direction{
+    case horizontal
+    case vertical
+    case diagonalUp
+    case diagonalDown
+}
